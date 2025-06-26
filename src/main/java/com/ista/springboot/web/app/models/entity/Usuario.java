@@ -33,7 +33,7 @@ public class Usuario implements Serializable {
 	private String nombre;
 	private String apellido;
 	private String correo;
-	private Byte[] biometrico;	
+	private byte[] biometrico;	
 	private String genero;
 	private Long idresponsable;
 	private Date fechanacimiento;
@@ -87,11 +87,11 @@ public class Usuario implements Serializable {
 		this.apellido = apellido;
 	}
 
-	public Byte[] getBiometrico() {
+	public byte[] getBiometrico() {
 		return biometrico;
 	}
 
-	public void setBiometrico(Byte[] biometrico) {
+	public void setBiometrico(byte[] biometrico) {
 		this.biometrico = biometrico;
 	}
 
