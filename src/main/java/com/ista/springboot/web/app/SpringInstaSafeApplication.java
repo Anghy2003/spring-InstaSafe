@@ -8,6 +8,7 @@ public class SpringInstaSafeApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringInstaSafeApplication.class, args);
+		System.out.println("Posi mi perro runa");
 	}
 
 }
