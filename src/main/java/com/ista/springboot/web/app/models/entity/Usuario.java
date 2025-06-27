@@ -30,6 +30,7 @@ public class Usuario implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	private String cedula;
 	private String nombre;
 	private String apellido;
 	private String correo;
@@ -37,6 +38,7 @@ public class Usuario implements Serializable {
 	private String genero;
 	private Long idresponsable;
 	private Date fechanacimiento;
+	private String contrasena;
 
 	@Column(name = "fecharegistro")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -54,6 +56,25 @@ public class Usuario implements Serializable {
 	private Rol id_rol;
 
 	
+
+	
+			
+			
+	public String getCedula() {
+		return cedula;
+	}
+
+	public void setCedula(String cedula) {
+		this.cedula = cedula;
+	}
+
+	public String getContrasena() {
+		return contrasena;
+	}
+
+	public void setContrasena(String contrasena) {
+		this.contrasena = contrasena;
+	}
 
 	public String getCorreo() {
 		return correo;

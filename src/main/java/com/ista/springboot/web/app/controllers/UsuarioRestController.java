@@ -57,7 +57,8 @@ public class UsuarioRestController {
 		usuarioActual.setBiometrico(usuario.getBiometrico());
 		usuarioActual.setFechanacimiento(usuario.getFechanacimiento());
 		usuarioActual.setGenero(usuario.getGenero());
-		usuarioActual.setIdresponsable(usuario.getIdresponsable());		
+		usuarioActual.setIdresponsable(usuario.getIdresponsable());	
+		usuarioActual.setContrasena(usuario.getContrasena());
 		return usuarioService.save(usuarioActual);
 	}
 	
