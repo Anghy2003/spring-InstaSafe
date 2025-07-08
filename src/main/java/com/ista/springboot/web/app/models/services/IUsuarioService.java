@@ -10,7 +10,7 @@ public interface IUsuarioService {
 	public Usuario save(Usuario usuario);
 	public Usuario findById(Long id);
 	public void delete(Long id);
-	public boolean compararRostro(byte[] imagenEntrada, Long idUsuario);
+	
 
 
 }
