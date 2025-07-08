@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
@@ -34,7 +35,11 @@ public class Usuario implements Serializable {
 	private String nombre;
 	private String apellido;
 	private String correo;
-	private byte[] biometrico;	
+
+	@Lob
+	@Column(name = "biometrico", columnDefinition = "LONGBLOB")
+	private byte[] biometrico;
+	
 	private String genero;
 	private Long idresponsable;
 	private Date fechanacimiento;
