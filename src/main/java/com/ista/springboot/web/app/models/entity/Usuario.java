@@ -3,8 +3,10 @@ package com.ista.springboot.web.app.models.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "usuarios")
 public class Usuario implements Serializable {
@@ -19,12 +21,17 @@ public class Usuario implements Serializable {
     private String nombre;
     private String apellido;
     private String correo;
+    private String foto;
 
-    private String foto; 
+    @Column(name = "plantilla_facial", columnDefinition = "TEXT")
+    private String plantillaFacial;
 
     private String genero;
     private Long idresponsable;
+
+    @Temporal(TemporalType.DATE)
     private Date fechanacimiento;
+
     private String contrasena;
 
     @Column(name = "fecharegistro")
@@ -38,9 +45,10 @@ public class Usuario implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_rol")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) // también para Rol
     private Rol id_rol;
 
-    // 🧩 Getters y Setters
+    // Getters y Setters
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -59,6 +67,9 @@ public class Usuario implements Serializable {
 
     public String getFoto() { return foto; }
     public void setFoto(String foto) { this.foto = foto; }
+
+    public String getPlantillaFacial() { return plantillaFacial; }
+    public void setPlantillaFacial(String plantillaFacial) { this.plantillaFacial = plantillaFacial; }
 
     public String getGenero() { return genero; }
     public void setGenero(String genero) { this.genero = genero; }

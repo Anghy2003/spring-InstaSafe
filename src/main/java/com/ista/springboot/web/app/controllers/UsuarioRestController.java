@@ -17,40 +17,43 @@ import com.ista.springboot.web.app.models.services.IUsuarioService;
 @CrossOrigin(origins = {"http://localhost:4200"})
 public class UsuarioRestController {
 
-    @Autowired
+	@Autowired
     private IUsuarioService usuarioService;
 
-    @PostMapping("/usuarios")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Usuario create(
-        @RequestParam("cedula") String cedula,
-        @RequestParam("nombre") String nombre,
-        @RequestParam("apellido") String apellido,
-        @RequestParam("correo") String correo,
-        @RequestParam("genero") String genero,
-        @RequestParam("idresponsable") Long idResponsable,
-        @RequestParam("fechanacimiento") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date fechaNacimiento,
-        @RequestParam("contrasena") String contrasena,
-        @RequestParam("id_rol") Long idRol,
-        @RequestParam(value = "foto", required = false) String foto
-    ) {
-        Usuario usuario = new Usuario();
-        usuario.setCedula(cedula);
-        usuario.setNombre(nombre);
-        usuario.setApellido(apellido);
-        usuario.setCorreo(correo);
-        usuario.setGenero(genero);
-        usuario.setIdresponsable(idResponsable);
-        usuario.setFechanacimiento(fechaNacimiento);
-        usuario.setContrasena(contrasena);
-        usuario.setFoto(foto);
+	@PostMapping("/usuarios")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Usuario create(
+	    @RequestParam("cedula") String cedula,
+	    @RequestParam("nombre") String nombre,
+	    @RequestParam("apellido") String apellido,
+	    @RequestParam("correo") String correo,
+	    @RequestParam("genero") String genero,
+	    @RequestParam("idresponsable") Long idResponsable,
+	    @RequestParam("fechanacimiento") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date fechaNacimiento,
+	    @RequestParam("contrasena") String contrasena,
+	    @RequestParam("id_rol") Long idRol,
+	    @RequestParam(value = "foto", required = false) String foto,
+	    @RequestParam(value = "plantillaFacial", required = false) String plantillaFacial // 👈 NUEVO
+	) {
+	    Usuario usuario = new Usuario();
+	    usuario.setCedula(cedula);
+	    usuario.setNombre(nombre);
+	    usuario.setApellido(apellido);
+	    usuario.setCorreo(correo);
+	    usuario.setGenero(genero);
+	    usuario.setIdresponsable(idResponsable);
+	    usuario.setFechanacimiento(fechaNacimiento);
+	    usuario.setContrasena(contrasena);
+	    usuario.setFoto(foto);
+	    usuario.setPlantillaFacial(plantillaFacial); // 👈 NUEVO
 
-        Rol rol = new Rol();
-        rol.setId(idRol);
-        usuario.setId_rol(rol);
+	    Rol rol = new Rol();
+	    rol.setId(idRol);
+	    usuario.setId_rol(rol);
 
-        return usuarioService.save(usuario);
-    }
+	    return usuarioService.save(usuario);
+	}
+
 
     
     @GetMapping("/usuarios/{id}")
