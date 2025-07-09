@@ -11,4 +11,10 @@ public interface IUsuarioService {
 	public Usuario findById(Long id);
 	public Usuario findByCedula(String cedula);
 	public void delete(Long id);
+<<<<<<< HEAD
+=======
+	
+
+
+>>>>>>> 6628776c0b9cbb333aca2fb5f50754f2b62c62c2
 }

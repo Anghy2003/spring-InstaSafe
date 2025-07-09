@@ -1,4 +1,8 @@
 package com.ista.springboot.web.app.models.services;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6628776c0b9cbb333aca2fb5f50754f2b62c62c2
 
 import java.util.List;
 
@@ -8,6 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ista.springboot.web.app.models.dao.IUsuarioDao;
 import com.ista.springboot.web.app.models.entity.Usuario;
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 6628776c0b9cbb333aca2fb5f50754f2b62c62c2
 
 @Service
 public class UsuarioServiceImpl implements IUsuarioService {
@@ -45,6 +54,11 @@ public class UsuarioServiceImpl implements IUsuarioService {
 		
 	}
 	
+<<<<<<< HEAD
+=======
+	
+
+>>>>>>> 6628776c0b9cbb333aca2fb5f50754f2b62c62c2
 }
 
 
