@@ -3,170 +3,78 @@ package com.ista.springboot.web.app.models.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "usuarios")
 public class Usuario implements Serializable {
-	/**
-	 * 
-	 */
-	
-	private static final long serialVersionUID = 1L;
-	
-	
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private String cedula;
-	private String nombre;
-	private String apellido;
-	private String correo;
+    private static final long serialVersionUID = 1L;
 
-	@Lob
-	@Column(name = "biometrico", columnDefinition = "LONGBLOB")
-	private byte[] biometrico;
-	
-	private String genero;
-	private Long idresponsable;
-	private Date fechanacimiento;
-	private String contrasena;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Column(name = "fecharegistro")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date fecharegistro;
-	
-		
-	@PrePersist
-	public void prePersist() {
-		fecharegistro = new Date();
-	}
-	
-	// Relación con la tabla rol
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_rol")
-	private Rol id_rol;
+    private String cedula;
+    private String nombre;
+    private String apellido;
+    private String correo;
 
-	
+    private String foto; 
 
-	
-			
-			
-	public String getCedula() {
-		return cedula;
-	}
+    private String genero;
+    private Long idresponsable;
+    private Date fechanacimiento;
+    private String contrasena;
 
-	public void setCedula(String cedula) {
-		this.cedula = cedula;
-	}
+    @Column(name = "fecharegistro")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fecharegistro;
 
-	public String getContrasena() {
-		return contrasena;
-	}
+    @PrePersist
+    public void prePersist() {
+        fecharegistro = new Date();
+    }
 
-	public void setContrasena(String contrasena) {
-		this.contrasena = contrasena;
-	}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_rol")
+    private Rol id_rol;
 
-	public String getCorreo() {
-		return correo;
-	}
+    // 🧩 Getters y Setters
 
-	public void setCorreo(String correo) {
-		this.correo = correo;
-	}
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-	public Long getId() {
-		return id;
-	}
+    public String getCedula() { return cedula; }
+    public void setCedula(String cedula) { this.cedula = cedula; }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
 
-	public String getNombre() {
-		return nombre;
-	}
+    public String getApellido() { return apellido; }
+    public void setApellido(String apellido) { this.apellido = apellido; }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+    public String getCorreo() { return correo; }
+    public void setCorreo(String correo) { this.correo = correo; }
 
-	public String getApellido() {
-		return apellido;
-	}
+    public String getFoto() { return foto; }
+    public void setFoto(String foto) { this.foto = foto; }
 
-	public void setApellido(String apellido) {
-		this.apellido = apellido;
-	}
+    public String getGenero() { return genero; }
+    public void setGenero(String genero) { this.genero = genero; }
 
-	public byte[] getBiometrico() {
-		return biometrico;
-	}
+    public Long getIdresponsable() { return idresponsable; }
+    public void setIdresponsable(Long idresponsable) { this.idresponsable = idresponsable; }
 
-	public void setBiometrico(byte[] biometrico) {
-		this.biometrico = biometrico;
-	}
+    public Date getFechanacimiento() { return fechanacimiento; }
+    public void setFechanacimiento(Date fechanacimiento) { this.fechanacimiento = fechanacimiento; }
 
-	public String getGenero() {
-		return genero;
-	}
+    public String getContrasena() { return contrasena; }
+    public void setContrasena(String contrasena) { this.contrasena = contrasena; }
 
-	public void setGenero(String genero) {
-		this.genero = genero;
-	}
+    public Date getFecharegistro() { return fecharegistro; }
+    public void setFecharegistro(Date fecharegistro) { this.fecharegistro = fecharegistro; }
 
-	public Long getIdresponsable() {
-		return idresponsable;
-	}
-
-	public void setIdresponsable(Long idresponsable) {
-		this.idresponsable = idresponsable;
-	}
-
-	public Date getFechanacimiento() {
-		return fechanacimiento;
-	}
-
-	public void setFechanacimiento(Date fechanacimiento) {
-		this.fechanacimiento = fechanacimiento;
-	}
-
-	public Date getFecharegistro() {
-		return fecharegistro;
-	}
-
-	public void setFecharegistro(Date fecharegistro) {
-		this.fecharegistro = fecharegistro;
-	}
-
-	public Rol getId_rol() {
-		return id_rol;
-	}
-
-	public void setId_rol(Rol id_rol) {
-		this.id_rol = id_rol;
-	}
-
-	
-    
-	
-    
-
-	
-
-	
+    public Rol getId_rol() { return id_rol; }
+    public void setId_rol(Rol id_rol) { this.id_rol = id_rol; }
 }

@@ -9,8 +9,6 @@ public interface IUsuarioService {
 	public List<Usuario> findAll ();
 	public Usuario save(Usuario usuario);
 	public Usuario findById(Long id);
+	public Usuario findByCedula(String cedula);
 	public void delete(Long id);
-	public boolean compararRostro(byte[] imagenEntrada, Long idUsuario);
-
-
 }
