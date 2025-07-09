@@ -1,5 +1,3 @@
-options:
-  logsBucket: "gs://logs-instasafe"
 
 steps:
   - name: 'gcr.io/cloud-builders/mvn'
