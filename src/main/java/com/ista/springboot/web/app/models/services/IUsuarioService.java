@@ -13,6 +13,6 @@ public interface IUsuarioService {
 	public void delete(Long id);
 	public Usuario findByCedula(String cedula);
 	public Usuario actualizarPlantillaFacial(Long id, String plantillaFacial);
-
+	
 
 }

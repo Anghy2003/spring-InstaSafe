@@ -74,6 +74,8 @@ public class UsuarioRestController {
     }
 
     
+    
+    
     @PutMapping("/usuarios/{id}")
     public Usuario update(@RequestBody Usuario usuario, @PathVariable Long id) {
         Usuario usuarioActual = usuarioService.findById(id);
@@ -104,4 +106,19 @@ public class UsuarioRestController {
     public void delete(@PathVariable Long id) {
         usuarioService.delete(id);
     }
+    
+    @GetMapping("/usuarios/plantillas")
+    public List<Usuario> obtenerSoloCedulaYPlantilla() {
+        return usuarioService.findAll()
+            .stream()
+            .filter(u -> u.getPlantillaFacial() != null && !u.getPlantillaFacial().isEmpty())
+            .map(u -> {
+                Usuario usuario = new Usuario();
+                usuario.setCedula(u.getCedula()); // 👈 Solo cedula
+                usuario.setPlantillaFacial(u.getPlantillaFacial()); // 👈 Solo plantilla
+                return usuario;
+            })
+            .toList();
+    }
+
 }
