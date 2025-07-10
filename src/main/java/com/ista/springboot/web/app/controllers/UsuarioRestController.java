@@ -31,12 +31,12 @@ public class UsuarioRestController {
 	    @RequestParam("apellido") String apellido,
 	    @RequestParam("correo") String correo,
 	    @RequestParam("genero") String genero,
-	    @RequestParam("idresponsable") Long idResponsable,
+	    @RequestParam(value = "idresponsable", required = false) Long idResponsable,  
 	    @RequestParam("fechanacimiento") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date fechaNacimiento,
 	    @RequestParam("contrasena") String contrasena,
 	    @RequestParam("id_rol") Long idRol,
 	    @RequestParam(value = "foto", required = false) String foto,
-	    @RequestParam(value = "plantillaFacial", required = false) String plantillaFacial // 👈 NUEVO
+	    @RequestParam(value = "plantillaFacial", required = false) String plantillaFacial
 	) {
 	    Usuario usuario = new Usuario();
 	    usuario.setCedula(cedula);
@@ -44,11 +44,16 @@ public class UsuarioRestController {
 	    usuario.setApellido(apellido);
 	    usuario.setCorreo(correo);
 	    usuario.setGenero(genero);
-	    usuario.setIdresponsable(idResponsable);
+
+	    // Solo setear idresponsable si vino en la petición
+	    if (idResponsable != null) {
+	        usuario.setIdresponsable(idResponsable);
+	    }
+
 	    usuario.setFechanacimiento(fechaNacimiento);
 	    usuario.setContrasena(contrasena);
 	    usuario.setFoto(foto);
-	    usuario.setPlantillaFacial(plantillaFacial); // 👈 NUEVO
+	    usuario.setPlantillaFacial(plantillaFacial);
 
 	    Rol rol = new Rol();
 	    rol.setId(idRol);
@@ -56,6 +61,7 @@ public class UsuarioRestController {
 
 	    return usuarioService.save(usuario);
 	}
+
 
 
     
