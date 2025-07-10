@@ -18,9 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ista.springboot.web.app.models.entity.Rol;
 import com.ista.springboot.web.app.models.services.IRolService;
 
-@CrossOrigin(origins = {"http://localhost:4200"})
-@RestController	
-@RequestMapping("/api")
+@CrossOrigin(origins = {
+	    "http://spring-instasafe-441403171241.us-central1.run.app",
+	    "https://spring-instasafe-441403171241.us-central1.run.app"
+	})
+	@RestController
+	@RequestMapping("/api")
 public class RolRestController {
 
 	@Autowired
