@@ -30,6 +30,7 @@ public class UsuarioRestController {
 		public Usuario create(@RequestBody Usuario usuario) {
 			return usuarioService.save(usuario);		
 		}
+		
 
 //	@PostMapping("/usuarios")
 //	@ResponseStatus(HttpStatus.CREATED)
