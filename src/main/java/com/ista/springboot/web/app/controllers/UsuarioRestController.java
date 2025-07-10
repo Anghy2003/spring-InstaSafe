@@ -1,15 +1,14 @@
 package com.ista.springboot.web.app.controllers;
 
-//import java.util.Date;
-
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-
+import com.ista.springboot.web.app.models.entity.Rol;
 import com.ista.springboot.web.app.models.entity.Usuario;
 import com.ista.springboot.web.app.models.services.IUsuarioService;
 
@@ -23,53 +22,45 @@ public class UsuarioRestController {
 
 	@Autowired
     private IUsuarioService usuarioService;
-	
-	
-		@PostMapping("/usuarios")
-		@ResponseStatus(HttpStatus.CREATED)
-		public Usuario create(@RequestBody Usuario usuario) {
-			return usuarioService.save(usuario);		
-		}
-		
 
-//	@PostMapping("/usuarios")
-//	@ResponseStatus(HttpStatus.CREATED)
-//	public Usuario create(
-//	    @RequestParam("cedula") String cedula,
-//	    @RequestParam("nombre") String nombre,
-//	    @RequestParam("apellido") String apellido,
-//	    @RequestParam("correo") String correo,
-//	    @RequestParam("genero") String genero,
-//	    @RequestParam(value = "idresponsable", required = false) Long idResponsable,  
-//	    @RequestParam("fechanacimiento") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date fechaNacimiento,
-//	    @RequestParam("contrasena") String contrasena,
-//	    @RequestParam("id_rol") Long idRol,
-//	    @RequestParam(value = "foto", required = false) String foto,
-//	    @RequestParam(value = "plantillaFacial", required = false) String plantillaFacial
-//	) {
-//	    Usuario usuario = new Usuario();
-//	    usuario.setCedula(cedula);
-//	    usuario.setNombre(nombre);
-//	    usuario.setApellido(apellido);
-//	    usuario.setCorreo(correo);
-//	    usuario.setGenero(genero);
-//
-//	    // Solo setear idresponsable si vino en la petición
-//	    if (idResponsable != null) {
-//	        usuario.setIdresponsable(idResponsable);
-//	    }
-//
-//	    usuario.setFechanacimiento(fechaNacimiento);
-//	    usuario.setContrasena(contrasena);
-//	    usuario.setFoto(foto);
-//	    usuario.setPlantillaFacial(plantillaFacial);
-//
-//	    Rol rol = new Rol();
-//	    rol.setId(idRol);
-//	    usuario.setId_rol(rol);
-//
-//	    return usuarioService.save(usuario);
-//	}
+	@PostMapping("/usuarios")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Usuario create(
+	    @RequestParam("cedula") String cedula,
+	    @RequestParam("nombre") String nombre,
+	    @RequestParam("apellido") String apellido,
+	    @RequestParam("correo") String correo,
+	    @RequestParam("genero") String genero,
+	    @RequestParam(value = "idresponsable", required = false) Long idResponsable,  
+	    @RequestParam("fechanacimiento") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date fechaNacimiento,
+	    @RequestParam("contrasena") String contrasena,
+	    @RequestParam("id_rol") Long idRol,
+	    @RequestParam(value = "foto", required = false) String foto,
+	    @RequestParam(value = "plantillaFacial", required = false) String plantillaFacial
+	) {
+	    Usuario usuario = new Usuario();
+	    usuario.setCedula(cedula);
+	    usuario.setNombre(nombre);
+	    usuario.setApellido(apellido);
+	    usuario.setCorreo(correo);
+	    usuario.setGenero(genero);
+
+	    // Solo setear idresponsable si vino en la petición
+	    if (idResponsable != null) {
+	        usuario.setIdresponsable(idResponsable);
+	    }
+
+	    usuario.setFechanacimiento(fechaNacimiento);
+	    usuario.setContrasena(contrasena);
+	    usuario.setFoto(foto);
+	    usuario.setPlantillaFacial(plantillaFacial);
+
+	    Rol rol = new Rol();
+	    rol.setId(idRol);
+	    usuario.setId_rol(rol);
+
+	    return usuarioService.save(usuario);
+	}
 
 
 

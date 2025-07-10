@@ -1,9 +1,9 @@
 package com.ista.springboot.web.app.models.entity;
 
 import java.io.Serializable;
+
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
@@ -30,7 +30,7 @@ public class Usuario implements Serializable {
     private String genero;
     private Long idresponsable;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
     private Date fechanacimiento;
 
     private String contrasena;
