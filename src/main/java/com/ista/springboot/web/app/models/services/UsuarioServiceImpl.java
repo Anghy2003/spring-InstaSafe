@@ -46,11 +46,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	public void delete(Long id) {
 		// TODO Auto-generated method stub
 		
-	
-
-    
-	
-
+		usuarioDao.deleteById(id);
 }
 
 	@Override

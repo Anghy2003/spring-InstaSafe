@@ -12,9 +12,12 @@ import com.ista.springboot.web.app.models.entity.Rol;
 import com.ista.springboot.web.app.models.entity.Usuario;
 import com.ista.springboot.web.app.models.services.IUsuarioService;
 
-@RestController
-@RequestMapping("/api")
-@CrossOrigin(origins = {"http://localhost:4200"})
+@CrossOrigin(origins = {
+	    "http://spring-instasafe-441403171241.us-central1.run.app",
+	    "https://spring-instasafe-441403171241.us-central1.run.app"
+	})
+	@RestController
+	@RequestMapping("/api")
 public class UsuarioRestController {
 
 	@Autowired
