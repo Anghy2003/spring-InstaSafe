@@ -72,7 +72,7 @@ public class UsuarioRestController {
     }
 
     @GetMapping("/usuarios/cedula/{cedula}")
-    public Usuario showByCedula(@PathVariable String cedula) {
+    public Usuario getByCedula(@PathVariable String cedula) {
         return usuarioService.findByCedula(cedula);
     }
 
