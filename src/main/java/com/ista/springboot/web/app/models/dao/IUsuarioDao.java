@@ -10,5 +10,6 @@ import com.ista.springboot.web.app.models.entity.Usuario;
 public interface IUsuarioDao extends CrudRepository<Usuario, Long>{
 
 	Optional<Usuario> findByCedula(String cedula);
+	Optional<Usuario> findByCorreo(String correo);
 
 }

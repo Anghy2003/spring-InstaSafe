@@ -12,6 +12,7 @@ public interface IUsuarioService {
 	public Usuario findById(Long id);
 	public void delete(Long id);
 	public Usuario findByCedula(String cedula);
+	public Usuario findByCorreo(String correo);
 	public Usuario actualizarPlantillaFacial(Long id, String plantillaFacial);
 	
 

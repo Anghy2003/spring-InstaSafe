@@ -13,78 +13,75 @@ import com.ista.springboot.web.app.models.entity.Usuario;
 import com.ista.springboot.web.app.models.services.IUsuarioService;
 
 @CrossOrigin(origins = {
-	    "http://spring-instasafe-441403171241.us-central1.run.app",
-	    "https://spring-instasafe-441403171241.us-central1.run.app"
-	})
-	@RestController
-	@RequestMapping("/api")
+    "http://spring-instasafe-441403171241.us-central1.run.app",
+    "https://spring-instasafe-441403171241.us-central1.run.app"
+})
+@RestController
+@RequestMapping("/api")
 public class UsuarioRestController {
 
-	@Autowired
+    @Autowired
     private IUsuarioService usuarioService;
 
-	@PostMapping("/usuarios")
-	@ResponseStatus(HttpStatus.CREATED)
-	public Usuario create(
-	    @RequestParam("cedula") String cedula,
-	    @RequestParam("nombre") String nombre,
-	    @RequestParam("apellido") String apellido,
-	    @RequestParam("correo") String correo,
-	    @RequestParam("genero") String genero,
-	    @RequestParam(value = "idresponsable", required = false) Long idResponsable,  
-	    @RequestParam("fechanacimiento") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date fechaNacimiento,
-	    @RequestParam("contrasena") String contrasena,
-	    @RequestParam("id_rol") Long idRol,
-	    @RequestParam(value = "foto", required = false) String foto,
-	    @RequestParam(value = "plantillaFacial", required = false) String plantillaFacial
-	) {
-	    Usuario usuario = new Usuario();
-	    usuario.setCedula(cedula);
-	    usuario.setNombre(nombre);
-	    usuario.setApellido(apellido);
-	    usuario.setCorreo(correo);
-	    usuario.setGenero(genero);
+    @PostMapping("/usuarios")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Usuario create(
+        @RequestParam("cedula") String cedula,
+        @RequestParam("nombre") String nombre,
+        @RequestParam("apellido") String apellido,
+        @RequestParam("correo") String correo,
+        @RequestParam("genero") String genero,
+        @RequestParam(value = "idresponsable", required = false) Long idResponsable,
+        @RequestParam("fechanacimiento") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date fechaNacimiento,
+        @RequestParam("contrasena") String contrasena,
+        @RequestParam("id_rol") Long idRol,
+        @RequestParam(value = "foto", required = false) String foto,
+        @RequestParam(value = "plantillaFacial", required = false) String plantillaFacial
+    ) {
+        Usuario usuario = new Usuario();
+        usuario.setCedula(cedula);
+        usuario.setNombre(nombre);
+        usuario.setApellido(apellido);
+        usuario.setCorreo(correo);
+        usuario.setGenero(genero);
 
-	    // Solo setear idresponsable si vino en la petición
-	    if (idResponsable != null) {
-	        usuario.setIdresponsable(idResponsable);
-	    }
+        if (idResponsable != null) {
+            usuario.setIdresponsable(idResponsable);
+        }
 
-	    usuario.setFechanacimiento(fechaNacimiento);
-	    usuario.setContrasena(contrasena);
-	    usuario.setFoto(foto);
-	    usuario.setPlantillaFacial(plantillaFacial);
+        usuario.setFechanacimiento(fechaNacimiento);
+        usuario.setContrasena(contrasena);
+        usuario.setFoto(foto);
+        usuario.setPlantillaFacial(plantillaFacial);
 
-	    Rol rol = new Rol();
-	    rol.setId(idRol);
-	    usuario.setId_rol(rol);
+        Rol rol = new Rol();
+        rol.setId(idRol);
+        usuario.setId_rol(rol);
 
-	    return usuarioService.save(usuario);
-	}
+        return usuarioService.save(usuario);
+    }
 
-
-
-    
     @GetMapping("/usuarios/{id}")
     public Usuario show(@PathVariable Long id) {
         return usuarioService.findById(id);
     }
 
-    
     @GetMapping("/usuarios")
     public List<Usuario> findAll() {
         return usuarioService.findAll();
     }
 
-    
     @GetMapping("/usuarios/cedula/{cedula}")
     public Usuario showByCedula(@PathVariable String cedula) {
         return usuarioService.findByCedula(cedula);
     }
 
-    
-    
-    
+    // ✅ Nuevo método para buscar por correo
+    @GetMapping("/usuarios/correo/{correo}")
+    public Usuario showByCorreo(@PathVariable String correo) {
+        return usuarioService.findByCorreo(correo);
+    }
+
     @PutMapping("/usuarios/{id}")
     public Usuario update(@RequestBody Usuario usuario, @PathVariable Long id) {
         Usuario usuarioActual = usuarioService.findById(id);
@@ -101,7 +98,6 @@ public class UsuarioRestController {
         return usuarioService.save(usuarioActual);
     }
 
-    
     @PutMapping("/usuarios/{id}/foto")
     public Usuario updateFoto(@PathVariable Long id, @RequestParam("foto") String foto) {
         Usuario usuarioActual = usuarioService.findById(id);
@@ -109,13 +105,12 @@ public class UsuarioRestController {
         return usuarioService.save(usuarioActual);
     }
 
-    
     @DeleteMapping("/usuarios/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
         usuarioService.delete(id);
     }
-    
+
     @GetMapping("/usuarios/plantillas")
     public List<Usuario> obtenerSoloCedulaYPlantilla() {
         return usuarioService.findAll()
@@ -123,11 +118,10 @@ public class UsuarioRestController {
             .filter(u -> u.getPlantillaFacial() != null && !u.getPlantillaFacial().isEmpty())
             .map(u -> {
                 Usuario usuario = new Usuario();
-                usuario.setCedula(u.getCedula()); // 👈 Solo cedula
-                usuario.setPlantillaFacial(u.getPlantillaFacial()); // 👈 Solo plantilla
+                usuario.setCedula(u.getCedula());
+                usuario.setPlantillaFacial(u.getPlantillaFacial());
                 return usuario;
             })
             .toList();
     }
-
 }

@@ -41,6 +41,12 @@ public class UsuarioServiceImpl implements IUsuarioService {
     public Usuario findByCedula(String cedula) {
         return usuarioDao.findByCedula(cedula).orElse(null);
     }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public Usuario findByCorreo(String correo) {
+        return usuarioDao.findByCorreo(correo).orElse(null);
+    }
 
 	@Override
 	public void delete(Long id) {
