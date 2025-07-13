@@ -1,45 +1,15 @@
 options:
   logging: CLOUD_LOGGING_ONLY
 
-
-volumes:
-  - name: m2-cache
-    path: /root/.m2
-
 steps:
-  
   - name: 'gcr.io/cloud-builders/mvn'
-    id: 'Build with Maven'
-    args:
-      - '-B'
-      - '-q'
-      - 'clean'
-      - 'package'
-      - '-DskipTests'
-    volumes:
-      - name: m2-cache
-        path: /root/.m2
-
-  
+    args: ['clean', 'package', '-DskipTests']
   - name: 'gcr.io/cloud-builders/docker'
-    id: 'Build Docker Image'
-    args:
-      - 'build'
-      - '-t'
-      - 'gcr.io/$PROJECT_ID/spring-instasafe'
-      - '.'
-
- 
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/spring-instasafe', '.']
   - name: 'gcr.io/cloud-builders/docker'
-    id: 'Push Docker Image'
-    args:
-      - 'push'
-      - 'gcr.io/$PROJECT_ID/spring-instasafe'
-
- 
+    args: ['push', 'gcr.io/$PROJECT_ID/spring-instasafe']
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    id: 'Deploy to Cloud Run'
-    entrypoint: gcloud
+    entrypoint: 'gcloud'
     args:
       - run
       - deploy
@@ -52,3 +22,4 @@ steps:
 
 images:
   - 'gcr.io/$PROJECT_ID/spring-instasafe'
+  
