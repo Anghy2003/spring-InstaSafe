@@ -1,5 +1,6 @@
 package com.ista.springboot.web.app.models.services;
 
+import java.sql.Date;
 import java.util.List;
 
 
@@ -38,6 +39,17 @@ public class EventoServiceImpl implements IEventoService {
 		// TODO Auto-generated method stub
 		return EventoDao.findById(id).orElse(null);
 	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<String> obtenerFechasConEventos() {
+	    List<Date> fechas = EventoDao.obtenerFechasUnicas();
+
+	    return fechas.stream()
+	        .map(fecha -> new java.text.SimpleDateFormat("yyyy-MM-dd").format(fecha))
+	        .distinct()
+	        .toList(); 
+	}
 
 	@Override
 	@Transactional
@@ -45,6 +57,11 @@ public class EventoServiceImpl implements IEventoService {
 		// TODO Auto-generated method stub
 		EventoDao.deleteById(id);
 		
+	}
+
+	@Override
+	public List<Evento> findByFechaRango(Date inicio, Date fin) {
+	    return EventoDao.findByFechaRango(inicio, fin);
 	}
 
 }

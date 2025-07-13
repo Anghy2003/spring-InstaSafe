@@ -1,5 +1,8 @@
 package com.ista.springboot.web.app.controllers;
 
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 
 
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -44,6 +48,23 @@ public class EventoRestController {
 	@GetMapping("/eventos/{id}")
 	public Evento show(@PathVariable Long id) {
 		return eventoService.findById(id);	
+	}
+	
+	//buscar por fecha
+	@GetMapping("/eventos/filtrar")
+	public List<Evento> eventosPorFecha(@RequestParam String fecha) {
+	    LocalDate localDate = LocalDate.parse(fecha); // Ej. "2025-07-13"
+
+	    Date inicio = (Date) Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+	    Date fin = (Date) Date.from(localDate.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+	    return eventoService.findByFechaRango(inicio, fin);
+	}
+	
+	//fechasdisponibles
+	@GetMapping("/eventos/fechas-disponibles")
+	public List<String> fechasConEventos() {
+	    return eventoService.obtenerFechasConEventos();
 	}
 	
 	//guardar  un Evento
