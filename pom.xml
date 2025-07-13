@@ -87,14 +87,19 @@
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>2.0.2</version>
 		</dependency>
-		
-		
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
+
+
+		<dependency>
+			<groupId>com.istaM4A</groupId>
+			<artifactId>spring-IstaSafe</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>

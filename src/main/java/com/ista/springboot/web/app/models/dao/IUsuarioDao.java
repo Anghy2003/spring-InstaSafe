@@ -11,5 +11,7 @@ public interface IUsuarioDao extends CrudRepository<Usuario, Long>{
 
 	Optional<Usuario> findByCedula(String cedula);
 	Optional<Usuario> findByCorreo(String correo);
+	Optional<Usuario> findByCorreoAndContrasena(String correo, String contrasena);
+	
 
 }

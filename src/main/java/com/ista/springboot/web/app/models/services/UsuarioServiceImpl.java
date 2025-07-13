@@ -65,6 +65,10 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	    return null;
 	}
 
+	@Override
+	public Usuario findByCorreoAndContrasena(String correo, String contrasena) {
+		return usuarioDao.findByCorreoAndContrasena(correo, contrasena).orElse(null);
+	}
 	
 	
 }
