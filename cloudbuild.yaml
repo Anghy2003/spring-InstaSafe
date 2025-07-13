@@ -1,25 +1,53 @@
 options:
   logging: CLOUD_LOGGING_ONLY
+  volumes:
+    - name: m2-cache
+      path: /root/.m2
 
 steps:
+ 
   - name: 'gcr.io/cloud-builders/mvn'
-    args: ['clean', 'package', '-DskipTests']
+    id: 'Build with Maven'
+    args:
+      - '-B'        
+      - '-q'        
+      - 'clean'
+      - 'package'
+      - '-DskipTests'
+    
+    volumes:
+      - name: m2-cache
+        path: /root/.m2
+
+ 
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/$PROJECT_ID/spring-instasafe', '.']
+    id: 'Build Docker Image'
+    args:
+      - 'build'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/spring-instasafe'
+      - '.'
+
+  
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/$PROJECT_ID/spring-instasafe']
+    id: 'Push Docker Image'
+    args:
+      - 'push'
+      - 'gcr.io/$PROJECT_ID/spring-instasafe'
+
+ 
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    id: 'Deploy to Cloud Run'
     entrypoint: 'gcloud'
     args:
-      - run
-      - deploy
-      - spring-instasafe
-      - --image=gcr.io/$PROJECT_ID/spring-instasafe
-      - --region=us-central1
-      - --platform=managed
-      - --allow-unauthenticated
-      - --port=8080
+      - 'run'
+      - 'deploy'
+      - 'spring-instasafe'
+      - '--image=gcr.io/$PROJECT_ID/spring-instasafe'
+      - '--region=us-central1'
+      - '--platform=managed'
+      - '--allow-unauthenticated'
+      - '--port=8080'
 
 images:
   - 'gcr.io/$PROJECT_ID/spring-instasafe'
-  
