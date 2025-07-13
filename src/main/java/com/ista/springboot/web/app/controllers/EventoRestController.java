@@ -53,13 +53,15 @@ public class EventoRestController {
 	//buscar por fecha
 	@GetMapping("/eventos/filtrar")
 	public List<Evento> eventosPorFecha(@RequestParam String fecha) {
-	    LocalDate localDate = LocalDate.parse(fecha); // Ej. "2025-07-13"
+	    LocalDate localDate = LocalDate.parse(fecha);
 
-	    Date inicio = (Date) Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-	    Date fin = (Date) Date.from(localDate.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
+	    // Convertir LocalDate → java.sql.Date
+	    Date inicio = Date.valueOf(localDate);
+	    Date fin = Date.valueOf(localDate.plusDays(1));
 
 	    return eventoService.findByFechaRango(inicio, fin);
 	}
+
 	
 	//fechasdisponibles
 	@GetMapping("/eventos/fechas-disponibles")
