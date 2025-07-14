@@ -6,11 +6,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.ista.springboot.web.app.models.entity.Rol;
 import com.ista.springboot.web.app.models.entity.Usuario;
 import com.ista.springboot.web.app.models.services.IUsuarioService;
+import com.ista.springboot.web.app.models.services.RolServiceImpl;
 
 @CrossOrigin(origins = {
     "http://spring-instasafe-441403171241.us-central1.run.app",
@@ -22,6 +24,9 @@ public class UsuarioRestController {
 
     @Autowired
     private IUsuarioService usuarioService;
+    
+    @Autowired
+    private RolServiceImpl rolService;
 
     @PostMapping("/usuarios")
     @ResponseStatus(HttpStatus.CREATED)
@@ -86,24 +91,33 @@ public class UsuarioRestController {
     public Usuario update(@RequestBody Usuario usuario, @PathVariable Long id) {
         Usuario usuarioActual = usuarioService.findById(id);
 
-        usuarioActual.setNombre(usuario.getNombre());
-        usuarioActual.setApellido(usuario.getApellido());
-        usuarioActual.setCorreo(usuario.getCorreo());
-        usuarioActual.setFoto(usuario.getFoto());
-        usuarioActual.setFechanacimiento(usuario.getFechanacimiento());
-        usuarioActual.setGenero(usuario.getGenero());
-        usuarioActual.setIdresponsable(usuario.getIdresponsable());
-        usuarioActual.setContrasena(usuario.getContrasena());
+        if (usuarioActual == null) {
+            throw new RuntimeException("Usuario no encontrado");
+        }
+
+        // Solo se actualizan los campos no nulos
+        if (usuario.getNombre() != null) usuarioActual.setNombre(usuario.getNombre());
+        if (usuario.getApellido() != null) usuarioActual.setApellido(usuario.getApellido());
+        if (usuario.getCorreo() != null) usuarioActual.setCorreo(usuario.getCorreo());
+        if (usuario.getFoto() != null) usuarioActual.setFoto(usuario.getFoto());
+        if (usuario.getFechanacimiento() != null) usuarioActual.setFechanacimiento(usuario.getFechanacimiento());
+        if (usuario.getGenero() != null) usuarioActual.setGenero(usuario.getGenero());
+        if (usuario.getIdresponsable() != null) usuarioActual.setIdresponsable(usuario.getIdresponsable());
+        if (usuario.getContrasena() != null) usuarioActual.setContrasena(usuario.getContrasena());
+
+        // Actualizar rol si se proporciona
+        if (usuario.getId_rol() != null && usuario.getId_rol().getId() != null) {
+            Rol rol = rolService.findById(usuario.getId_rol().getId());
+            if (rol != null) {
+                usuarioActual.setId_rol(rol);
+            } else {
+                throw new RuntimeException("Rol no encontrado");
+            }
+        }
 
         return usuarioService.save(usuarioActual);
     }
 
-    @PutMapping("/usuarios/{id}/foto")
-    public Usuario updateFoto(@PathVariable Long id, @RequestParam("foto") String foto) {
-        Usuario usuarioActual = usuarioService.findById(id);
-        usuarioActual.setFoto(foto);
-        return usuarioService.save(usuarioActual);
-    }
 
     @DeleteMapping("/usuarios/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -124,4 +138,22 @@ public class UsuarioRestController {
             })
             .toList();
     }
+    
+    @PostMapping("/login")
+    public ResponseEntity<Usuario> login(
+        @RequestParam String correo,
+        @RequestParam String contrasena
+    ) {
+        Usuario user = usuarioService.findByCorreoAndContrasena(correo, contrasena);
+        if (user != null) {
+          return ResponseEntity.ok(user);
+        } else {
+          return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+    
+   
+    
+    
+    
 }

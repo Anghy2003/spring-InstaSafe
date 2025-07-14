@@ -14,6 +14,8 @@ public interface IUsuarioService {
 	public Usuario findByCedula(String cedula);
 	public Usuario findByCorreo(String correo);
 	public Usuario actualizarPlantillaFacial(Long id, String plantillaFacial);
+	public Usuario findByCorreoAndContrasena(String correo, String contrasena);
+	
 	
 
 }
