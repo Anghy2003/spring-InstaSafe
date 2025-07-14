@@ -21,6 +21,7 @@ import com.ista.springboot.web.app.models.services.RolServiceImpl;
 @RestController
 @RequestMapping("/api")
 public class UsuarioRestController {
+	
 
     @Autowired
     private IUsuarioService usuarioService;
@@ -150,10 +151,6 @@ public class UsuarioRestController {
         } else {
           return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-    }
-    
+    }  
    
-    
-    
-    
 }

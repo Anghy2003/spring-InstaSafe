@@ -78,6 +78,10 @@ public class Evento implements Serializable {
     public Date getFechaingreso() {
         return fechaingreso;
     }
+    
+    public void setFechaingreso(Date fechaingreso) {
+    	this.fechaingreso = fechaingreso;
+    }
 
     // sin setter para evitar modificación
     // público solo si necesitas visualizarla desde otros componentes
