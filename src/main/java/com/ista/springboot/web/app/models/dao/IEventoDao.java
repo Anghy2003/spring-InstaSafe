@@ -1,6 +1,6 @@
 package com.ista.springboot.web.app.models.dao;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,13 +12,23 @@ import com.ista.springboot.web.app.models.entity.Evento;
 
 public interface IEventoDao extends CrudRepository<Evento, Long> {
 
-    @Query("SELECT e FROM Evento e WHERE e.fechaingreso BETWEEN :inicio AND :fin")
-    List<Evento> findByFechaRango(@Param("inicio") Date inicio, @Param("fin") Date fin);
+    @Query("SELECT e FROM Evento e " +
+           "WHERE e.fechaingreso BETWEEN :inicio AND :fin")
+    List<Evento> findByFechaRango(
+        @Param("inicio") Date inicio,
+        @Param("fin")    Date fin
+    );
 
     @Query("SELECT DISTINCT DATE(e.fechaingreso) FROM Evento e")
     List<Date> obtenerFechasUnicas();
 
-    Optional<Evento> findFirstByIdUsuarioIdAndFechaingresoBetweenAndFechasalidaIsNull(
-        Long id_usuario, Date inicio, Date fin
+    @Query("SELECT e FROM Evento e " +
+           "WHERE e.id_usuario.id = :idUsuario " +
+           "  AND e.fechaingreso BETWEEN :inicio AND :fin " +
+           "  AND e.fechasalida IS NULL")
+    Optional<Evento> findEventoSinSalidaHoy(
+        @Param("idUsuario") Long idUsuario,
+        @Param("inicio")    Date inicio,
+        @Param("fin")       Date fin
     );
 }

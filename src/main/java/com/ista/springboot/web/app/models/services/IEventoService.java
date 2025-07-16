@@ -12,5 +12,5 @@ public interface IEventoService {
     void delete(Long id);
     List<Evento> findByFechaRango(Date inicio, Date fin);
     List<String> obtenerFechasConEventos();
-    Evento findEventoSinSalidaHoy(Long id_usuario, LocalDate fecha);
+    Evento findEventoSinSalidaHoy(Long idUsuario, LocalDate fecha);
 }
