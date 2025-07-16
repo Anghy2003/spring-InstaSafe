@@ -73,8 +73,24 @@ public class EventoRestController {
 	@PostMapping("/eventos")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Evento create(@RequestBody Evento evento) {
-		return eventoService.save(evento);		
+	    Long idUsuario = evento.getId_usuario().getId();
+	    LocalDate hoy = LocalDate.now();
+
+	    // 1. Buscar evento existente sin salida para el usuario hoy
+	    Evento eventoExistente = eventoService.findEventoSinSalidaHoy(idUsuario, hoy);
+
+	    if (eventoExistente != null) {
+	        // 2. Ya tenía ingreso => actualizar solo la fecha de salida
+	        eventoExistente.setFechasalida(evento.getFechasalida() != null ? evento.getFechasalida() : java.sql.Timestamp.valueOf(java.time.LocalDateTime.now()));
+	        return eventoService.save(eventoExistente);
+	    }
+
+	    // 3. No tenía ingreso hoy => crear evento nuevo (sin salida)
+	    evento.setFechaingreso(evento.getFechaingreso() != null ? evento.getFechaingreso() : java.sql.Timestamp.valueOf(java.time.LocalDateTime.now()));
+	    evento.setFechasalida(null); // se llena después
+	    return eventoService.save(evento);
 	}
+
 	
 	//editar un Evento
 	@PutMapping("/eventos/{id}")
