@@ -4,7 +4,6 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,67 +11,63 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ista.springboot.web.app.models.dao.IEventoDao;
 import com.ista.springboot.web.app.models.entity.Evento;
 
-
-
-
 @Service
 public class EventoServiceImpl implements IEventoService {
-	
-	@Autowired
-	private IEventoDao EventoDao;
 
-	@Transactional(readOnly = true)
-	public List<Evento> findAll() {
-		// TODO Auto-generated method stub
-		return (List<Evento>) EventoDao.findAll();
-	}
+    @Autowired
+    private IEventoDao eventoDao;
 
-	@Override
-	@Transactional
-	public Evento save(Evento evento) {
-		// TODO Auto-generated method stub
-		return EventoDao.save(evento);
-	}
+    @Override
+    @Transactional(readOnly = true)
+    public List<Evento> findAll() {
+        return (List<Evento>) eventoDao.findAll();
+    }
 
-	@Override
-	@Transactional(readOnly = true)
-	public Evento findById(Long id) {
-		// TODO Auto-generated method stub
-		return EventoDao.findById(id).orElse(null);
-	}
-	
-	@Override
-	@Transactional(readOnly = true)
-	public List<String> obtenerFechasConEventos() {
-	    List<Date> fechas = EventoDao.obtenerFechasUnicas();
+    @Override
+    @Transactional
+    public Evento save(Evento evento) {
+        return eventoDao.save(evento);
+    }
 
-	    return fechas.stream()
-	        .map(fecha -> new java.text.SimpleDateFormat("yyyy-MM-dd").format(fecha))
-	        .distinct()
-	        .toList(); 
-	}
+    @Override
+    @Transactional(readOnly = true)
+    public Evento findById(Long id) {
+        return eventoDao.findById(id).orElse(null);
+    }
 
-	@Override
-	@Transactional
-	public void delete(Long id) {
-		// TODO Auto-generated method stub
-		EventoDao.deleteById(id);
-		
-	}
+    @Override
+    @Transactional(readOnly = true)
+    public List<String> obtenerFechasConEventos() {
+        List<Date> fechas = eventoDao.obtenerFechasUnicas();
+        return fechas.stream()
+            .map(f -> new java.text.SimpleDateFormat("yyyy-MM-dd").format(f))
+            .distinct()
+            .toList();
+    }
 
-	@Override
-	public List<Evento> findByFechaRango(Date inicio, Date fin) {
-	    return EventoDao.findByFechaRango(inicio, fin);
-	}
-	 @Override
-	    public Evento findEventoSinSalidaHoy(Long idUsuario, LocalDate fecha) {
-	        Date fechaInicio = Date.valueOf(fecha);
-	        Date fechaFin = Date.valueOf(fecha.plusDays(1));
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        eventoDao.deleteById(id);
+    }
 
-	        return EventoDao
-	            .findFirstByIdUsuarioIdAndFechaingresoBetweenAndFechasalidaIsNull(idUsuario, fechaInicio, fechaFin)
-	            .orElse(null);
-	    }
+    @Override
+    @Transactional(readOnly = true)
+    public List<Evento> findByFechaRango(Date inicio, Date fin) {
+        return eventoDao.findByFechaRango(inicio, fin);
+    }
 
+    // Este método **debe** coincidir exactamente con tu IEventoService:
+    @Override
+    @Transactional(readOnly = true)
+    public Evento findEventoSinSalidaHoy(Long idUsuario, LocalDate fecha) {
+        Date fechaInicio = Date.valueOf(fecha);
+        Date fechaFin    = Date.valueOf(fecha.plusDays(1));
+        return eventoDao
+            .findFirstByIdUsuarioIdAndFechaingresoBetweenAndFechasalidaIsNull(
+                idUsuario, fechaInicio, fechaFin
+            )
+            .orElse(null);
+    }
 
 }
