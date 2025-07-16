@@ -57,10 +57,10 @@ public class EventoServiceImpl implements IEventoService {
         return eventoDao.findByFechaRango(inicio, fin);
     }
 
-    // Este método **debe** coincidir exactamente con tu IEventoService:
     @Override
     @Transactional(readOnly = true)
     public Evento findEventoSinSalidaHoy(Long idUsuario, LocalDate fecha) {
+        // Convertimos el LocalDate recibido a java.sql.Date
         Date fechaInicio = Date.valueOf(fecha);
         Date fechaFin    = Date.valueOf(fecha.plusDays(1));
         return eventoDao
@@ -69,5 +69,4 @@ public class EventoServiceImpl implements IEventoService {
             )
             .orElse(null);
     }
-
 }

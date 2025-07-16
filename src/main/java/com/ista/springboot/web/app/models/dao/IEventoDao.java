@@ -14,10 +14,11 @@ public interface IEventoDao extends CrudRepository<Evento, Long> {
 
     @Query("SELECT e FROM Evento e WHERE e.fechaingreso BETWEEN :inicio AND :fin")
     List<Evento> findByFechaRango(@Param("inicio") Date inicio, @Param("fin") Date fin);
-    
+
     @Query("SELECT DISTINCT DATE(e.fechaingreso) FROM Evento e")
     List<Date> obtenerFechasUnicas();
-    
-    Optional<Evento> findFirstByIdUsuarioIdAndFechaingresoBetweenAndFechasalidaIsNull(Long idUsuario, Date inicio, Date fin);
 
+    Optional<Evento> findFirstByIdUsuarioIdAndFechaingresoBetweenAndFechasalidaIsNull(
+        Long idUsuario, Date inicio, Date fin
+    );
 }
