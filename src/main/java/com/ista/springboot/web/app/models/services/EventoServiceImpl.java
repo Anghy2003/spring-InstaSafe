@@ -64,11 +64,15 @@ public class EventoServiceImpl implements IEventoService {
 	public List<Evento> findByFechaRango(Date inicio, Date fin) {
 	    return EventoDao.findByFechaRango(inicio, fin);
 	}
+	 @Override
+	    public Evento findEventoSinSalidaHoy(Long idUsuario, LocalDate fecha) {
+	        Date fechaInicio = Date.valueOf(fecha);
+	        Date fechaFin = Date.valueOf(fecha.plusDays(1));
 
-	@Override
-	public Evento findEventoSinSalidaHoy(Long idUsuario, LocalDate fecha) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	        return EventoDao
+	            .findFirstByIdUsuarioIdAndFechaingresoBetweenAndFechasalidaIsNull(idUsuario, fechaInicio, fechaFin)
+	            .orElse(null);
+	    }
+
 
 }
