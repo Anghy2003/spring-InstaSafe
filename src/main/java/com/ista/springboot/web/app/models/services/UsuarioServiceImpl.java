@@ -70,5 +70,13 @@ public class UsuarioServiceImpl implements IUsuarioService {
 		return usuarioDao.findByCorreoAndContrasena(correo, contrasena).orElse(null);
 	}
 	
+	 @Override
+	  @Transactional
+	  public Usuario actualizarFotoGoogle(String correo, String fotoGoogle) {
+	    Usuario u = usuarioDao.findByCorreo(correo).orElse(null);
+	    if (u == null) throw new RuntimeException("Usuario no encontrado");
+	    u.setFotoGoogle(fotoGoogle);
+	    return usuarioDao.save(u);
+	  }
 	
 }

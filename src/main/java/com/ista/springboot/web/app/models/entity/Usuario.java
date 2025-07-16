@@ -50,6 +50,9 @@ public class Usuario implements Serializable {
     @JoinColumn(name = "id_rol")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) // también para Rol
     private Rol id_rol;
+    
+    @Column(name="foto_google")
+    private String fotoGoogle;
 
     // Getters y Setters
 
@@ -91,4 +94,7 @@ public class Usuario implements Serializable {
 
     public Rol getId_rol() { return id_rol; }
     public void setId_rol(Rol id_rol) { this.id_rol = id_rol; }
+    
+    public String getFotoGoogle() { return fotoGoogle;   }
+      public void setFotoGoogle(String fotoGoogle) { this.fotoGoogle = fotoGoogle;   }
 }

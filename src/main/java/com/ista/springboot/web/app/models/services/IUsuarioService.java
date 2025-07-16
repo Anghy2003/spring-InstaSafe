@@ -15,7 +15,6 @@ public interface IUsuarioService {
 	public Usuario findByCorreo(String correo);
 	public Usuario actualizarPlantillaFacial(Long id, String plantillaFacial);
 	public Usuario findByCorreoAndContrasena(String correo, String contrasena);
+	public Usuario actualizarFotoGoogle(String correo, String fotoGoogle);
 	
-	
-
 }

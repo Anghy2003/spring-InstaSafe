@@ -154,4 +154,13 @@ public class UsuarioRestController {
         }
     }  
    
+    @PutMapping("/usuarios/foto-google")
+    public ResponseEntity<Usuario> updateFotoGoogle(
+        @RequestParam String correo,
+        @RequestParam String fotoGoogle
+    ) {
+      Usuario u = usuarioService.actualizarFotoGoogle(correo, fotoGoogle);
+      return ResponseEntity.ok(u);
+    }
+    
 }
