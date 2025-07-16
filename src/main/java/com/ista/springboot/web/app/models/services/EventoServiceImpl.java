@@ -1,7 +1,7 @@
 package com.ista.springboot.web.app.models.services;
 
 import java.sql.Date;
-import java.time.LocalDate;
+//import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,16 +57,16 @@ public class EventoServiceImpl implements IEventoService {
         return eventoDao.findByFechaRango(inicio, fin);
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public Evento findEventoSinSalidaHoy(Long idUsuario, LocalDate fecha) {
-        // Convertimos el LocalDate recibido a java.sql.Date
-        Date fechaInicio = Date.valueOf(fecha);
-        Date fechaFin    = Date.valueOf(fecha.plusDays(1));
-        return eventoDao
-            .findFirstByIdUsuarioIdAndFechaingresoBetweenAndFechasalidaIsNull(
-                idUsuario, fechaInicio, fechaFin
-            )
-            .orElse(null);
-    }
+//    @Override
+//    @Transactional(readOnly = true)
+//    public Evento findEventoSinSalidaHoy(Long idUsuario, LocalDate fecha) {
+//        // Convertimos el LocalDate recibido a java.sql.Date
+//        Date fechaInicio = Date.valueOf(fecha);
+//        Date fechaFin    = Date.valueOf(fecha.plusDays(1));
+//        return eventoDao
+//            .findFirstByIdUsuarioIdAndFechaingresoBetweenAndFechasalidaIsNull(
+//                idUsuario, fechaInicio, fechaFin
+//            )
+//            .orElse(null);
+//    }
 }

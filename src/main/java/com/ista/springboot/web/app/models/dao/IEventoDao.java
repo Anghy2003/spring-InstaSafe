@@ -18,7 +18,7 @@ public interface IEventoDao extends CrudRepository<Evento, Long> {
     @Query("SELECT DISTINCT DATE(e.fechaingreso) FROM Evento e")
     List<Date> obtenerFechasUnicas();
 
-    Optional<Evento> findFirstByIdUsuarioIdAndFechaingresoBetweenAndFechasalidaIsNull(
-        Long idUsuario, Date inicio, Date fin
-    );
+//    Optional<Evento> findFirstByIdUsuarioIdAndFechaingresoBetweenAndFechasalidaIsNull(
+//        Long idUsuario, Date inicio, Date fin
+//    );
 }
