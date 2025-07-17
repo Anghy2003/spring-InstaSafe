@@ -20,7 +20,8 @@ import com.ista.springboot.web.app.models.services.IRolService;
 
 @CrossOrigin(origins = {
 	    "http://spring-instasafe-441403171241.us-central1.run.app",
-	    "https://spring-instasafe-441403171241.us-central1.run.app"
+	    "https://spring-instasafe-441403171241.us-central1.run.app",
+	    "http://localhost:4200"
 	})
 	@RestController
 	@RequestMapping("/api")
