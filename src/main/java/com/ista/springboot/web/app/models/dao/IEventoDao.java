@@ -33,8 +33,8 @@ public interface IEventoDao extends CrudRepository<Evento, Long> {
     );
     
  // Busca el primer evento de un usuario cuya fechaIngreso esté entre inicio y fin, y sin fechaSalida
-    Optional<Evento> findFirstByIdUsuarioIdAndFechaingresoBetweenAndFechasalidaIsNull(
-    	    Long idUsuario, Date inicio, Date fin
+    Optional<Evento> findFirstByUsuarioIdAndFechaingresoBetweenAndFechasalidaIsNull(
+    	    Long usuarioId, Date inicio, Date fin
     	);
     
     

@@ -67,7 +67,7 @@ public class EventoServiceImpl implements IEventoService {
 
         // Este método debe devolver Optional<Evento>
         Optional<Evento> opt = eventoDao
-            .findFirstByIdUsuarioIdAndFechaingresoBetweenAndFechasalidaIsNull(
+            .findFirstByUsuarioIdAndFechaingresoBetweenAndFechasalidaIsNull(
                 idUsuario, inicio, fin
             );
 
