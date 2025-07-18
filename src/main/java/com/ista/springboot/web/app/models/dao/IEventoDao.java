@@ -12,6 +12,7 @@ import com.ista.springboot.web.app.models.entity.Evento;
 
 public interface IEventoDao extends CrudRepository<Evento, Long> {
 
+    /** Busca eventos en un rango de fechaIngreso */
     @Query("SELECT e FROM Evento e " +
            "WHERE e.fechaingreso BETWEEN :inicio AND :fin")
     List<Evento> findByFechaRango(
@@ -19,23 +20,22 @@ public interface IEventoDao extends CrudRepository<Evento, Long> {
         @Param("fin")    Date fin
     );
 
-    @Query("SELECT DISTINCT DATE(e.fechaingreso) FROM Evento e")
+    /** Devuelve fechas únicas (solo día) en que hay eventos */
+    @Query("SELECT DISTINCT FUNCTION('DATE', e.fechaingreso) FROM Evento e")
     List<Date> obtenerFechasUnicas();
 
+    /**
+     * Busca el evento SIN fechaSalida para un usuario en el día dado.
+     * Retorna Optional.empty() si no hay ninguno.
+     */
     @Query("SELECT e FROM Evento e " +
-           "WHERE e.id_usuario.id = :idUsuario " +
-           "  AND e.fechaingreso BETWEEN :inicio AND :fin " +
-           "  AND e.fechasalida IS NULL")
+           "WHERE e.id_usuario.id     = :idUsuario " +
+           "  AND e.fechaingreso      >= :inicio " +
+           "  AND e.fechaingreso      <  :fin " +
+           "  AND e.fechasalida       IS NULL")
     Optional<Evento> findEventoSinSalidaHoy(
         @Param("idUsuario") Long idUsuario,
         @Param("inicio")    Date inicio,
         @Param("fin")       Date fin
     );
-    
- // Busca el primer evento de un usuario cuya fechaIngreso esté entre inicio y fin, y sin fechaSalida
-    Optional<Evento> findFirstByUsuarioIdAndFechaingresoBetweenAndFechasalidaIsNull(
-    	    Long usuarioId, Date inicio, Date fin
-    	);
-    
-    
 }

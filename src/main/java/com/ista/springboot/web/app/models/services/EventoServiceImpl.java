@@ -61,16 +61,13 @@ public class EventoServiceImpl implements IEventoService {
     @Override
     @Transactional(readOnly = true)
     public Evento findEventoSinSalidaHoy(Long idUsuario, LocalDate fecha) {
-        // Construimos los límites de hoy
         Date inicio = Date.valueOf(fecha);
         Date fin    = Date.valueOf(fecha.plusDays(1));
 
-        // Este método debe devolver Optional<Evento>
         Optional<Evento> opt = eventoDao
-            .findFirstByUsuarioIdAndFechaingresoBetweenAndFechasalidaIsNull(
-                idUsuario, inicio, fin
-            );
+            .findEventoSinSalidaHoy(idUsuario, inicio, fin);
 
         return opt.orElse(null);
     }
+
 }

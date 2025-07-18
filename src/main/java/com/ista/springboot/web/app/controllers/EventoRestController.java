@@ -112,6 +112,7 @@ public class EventoRestController {
 		eventoService.delete(id);
 	}
 	
+	
     
 //      Devuelve el evento abierto de hoy (sin fechaSalida) para un usuario,
 //      o 204 si no existe.
