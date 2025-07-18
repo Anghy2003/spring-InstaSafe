@@ -3,6 +3,7 @@ package com.ista.springboot.web.app.models.services;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,6 @@ public class EventoServiceImpl implements IEventoService {
     @Override
     @Transactional(readOnly = true)
     public List<String> obtenerFechasConEventos() {
-        // Tu DAO devuelve java.util.Date, formateamos a "yyyy-MM-dd"
         List<java.util.Date> fechas = eventoDao.obtenerFechasUnicas();
         return fechas.stream()
             .map(f -> new java.text.SimpleDateFormat("yyyy-MM-dd").format(f))
@@ -61,12 +61,16 @@ public class EventoServiceImpl implements IEventoService {
     @Override
     @Transactional(readOnly = true)
     public Evento findEventoSinSalidaHoy(Long idUsuario, LocalDate fecha) {
-        // Convertimos LocalDate -> java.sql.Date para pasarlo al DAO
+        // Construimos los límites de hoy
         Date inicio = Date.valueOf(fecha);
         Date fin    = Date.valueOf(fecha.plusDays(1));
-        // Llamamos al método de tu DAO
-        return eventoDao
-            .findEventoSinSalidaHoy(idUsuario, inicio, fin)
-            .orElse(null);
+
+        // Este método debe devolver Optional<Evento>
+        Optional<Evento> opt = eventoDao
+            .findFirstByIdUsuarioIdAndFechaingresoBetweenAndFechasalidaIsNull(
+                idUsuario, inicio, fin
+            );
+
+        return opt.orElse(null);
     }
 }

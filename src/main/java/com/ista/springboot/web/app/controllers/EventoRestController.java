@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -110,5 +111,20 @@ public class EventoRestController {
 	public void delete(@PathVariable Long id) {
 		eventoService.delete(id);
 	}
+	
+    
+//      Devuelve el evento abierto de hoy (sin fechaSalida) para un usuario,
+//      o 204 si no existe.
+     
+    @GetMapping("/eventos/pendiente/{idUsuario}")
+    public ResponseEntity<Evento> getEventoPendiente(@PathVariable Long idUsuario) {
+        LocalDate hoy = LocalDate.now();
+        Evento pendiente = eventoService.findEventoSinSalidaHoy(idUsuario, hoy);
+        if (pendiente != null) {
+            return ResponseEntity.ok(pendiente);
+        }
+        return ResponseEntity.noContent().build();
+    }
+
 	
 }
