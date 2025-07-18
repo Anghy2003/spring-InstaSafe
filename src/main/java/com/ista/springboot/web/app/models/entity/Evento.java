@@ -35,7 +35,7 @@ public class Evento implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_usuario")
-    private Usuario id_usuario;
+    private Usuario usuario;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_guardia")
@@ -94,15 +94,17 @@ public class Evento implements Serializable {
         this.fechasalida = fechasalida;
     }
 
-    public Usuario getId_usuario() {
-        return id_usuario;
-    }
+    
 
-    public void setId_usuario(Usuario id_usuario) {
-        this.id_usuario = id_usuario;
-    }
+    public Usuario getUsuario() {
+		return usuario;
+	}
 
-    public Usuario getId_guardia() {
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public Usuario getId_guardia() {
         return id_guardia;
     }
 
