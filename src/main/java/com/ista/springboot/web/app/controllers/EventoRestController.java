@@ -75,7 +75,7 @@ public class EventoRestController {
 	@PostMapping("/eventos")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Evento create(@RequestBody Evento evento) {
-	    Long idUsuario = evento.getUsuario().getId();
+	    Long idUsuario = evento.getId_usuario().getId();
 	    LocalDate hoy = LocalDate.now();
 
 	    // 1. Buscar evento existente sin salida para el usuario hoy
