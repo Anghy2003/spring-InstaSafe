@@ -51,7 +51,7 @@ public class Usuario implements Serializable {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) // también para Rol
     private Rol id_rol;
     
-    @Column(name="fotogoogle")
+    
     private String fotoGoogle;
 
     // Getters y Setters
