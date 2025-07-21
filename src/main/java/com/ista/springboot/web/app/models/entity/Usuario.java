@@ -53,10 +53,15 @@ public class Usuario implements Serializable {
     
     @Column(name="fotogoogle") 
     private String fotoGoogle;
+    
+    private String token;
 
     // Getters y Setters
+    
+    public String getToken() { return token; }
+    public void setToken(String token) {this.token = token;	}
 
-    public Long getId() { return id; }
+	public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
     public String getCedula() { return cedula; }
