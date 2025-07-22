@@ -17,7 +17,8 @@ public class Evento implements Serializable {
 
     private String titulo;
     private String descripcion;
-    private String lugar;
+    
+   
 
     @Column(name = "fechaingreso", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -40,6 +41,10 @@ public class Evento implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_guardia")
     private Usuario id_guardia;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_lugar")
+    private Lugar id_lugar;
 
     // Getters y Setters
 
@@ -67,15 +72,17 @@ public class Evento implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public String getLugar() {
-        return lugar;
-    }
+       	
 
-    public void setLugar(String lugar) {
-        this.lugar = lugar;
-    }
+    public Lugar getId_lugar() {
+		return id_lugar;
+	}
 
-    public Date getFechaingreso() {
+	public void setId_lugar(Lugar id_lugar) {
+		this.id_lugar = id_lugar;
+	}
+
+	public Date getFechaingreso() {
         return fechaingreso;
     }
     
