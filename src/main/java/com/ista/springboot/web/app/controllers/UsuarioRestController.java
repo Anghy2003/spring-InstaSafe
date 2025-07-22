@@ -163,4 +163,33 @@ public class UsuarioRestController {
       return ResponseEntity.ok(u);
     }
     
+    
+//     Registra un visitante
+    
+    @PostMapping("/usuarios/visitantes")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Usuario crearVisitante(
+        @RequestParam("nombre") String nombre,
+        @RequestParam("apellido") String apellido,
+        @RequestParam("id_rol") Long idRol,
+        @RequestParam("foto") String foto,
+        @RequestParam("plantillaFacial") String plantillaFacial
+    ) {
+        // 1️⃣ Busca el rol
+        Rol rol = rolService.findById(idRol);
+        
+        // 2️⃣ Construye la entidad Usuario con los campos mínimos
+        Usuario u = new Usuario();
+        u.setNombre(nombre);
+        u.setApellido(apellido);
+        u.setFoto(foto);
+        u.setPlantillaFacial(plantillaFacial);
+        u.setId_rol(rol);
+        
+        // Nota: cedula, correo, genero, fechanacimiento, contrasena, etc. quedan nulos
+        
+        // 3️⃣ Persiste y devuelve
+        return usuarioService.save(u);
+    }
+    
 }
