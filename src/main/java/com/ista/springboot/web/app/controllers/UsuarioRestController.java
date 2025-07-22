@@ -185,9 +185,7 @@ public class UsuarioRestController {
         u.setFoto(foto);
         u.setPlantillaFacial(plantillaFacial);
         u.setId_rol(rol);
-        
-        // Nota: cedula, correo, genero, fechanacimiento, contrasena, etc. quedan nulos
-        
+                
         // 3️⃣ Persiste y devuelve
         return usuarioService.save(u);
     }
