@@ -24,7 +24,7 @@ public class Lugar implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nombre;
-	private String descripcion;
+	
 	
 	
 	public Long getId() {
@@ -39,12 +39,7 @@ public class Lugar implements Serializable {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	public String getDescripcion() {
-		return descripcion;
-	}
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	};
+	
 	
 
 	
