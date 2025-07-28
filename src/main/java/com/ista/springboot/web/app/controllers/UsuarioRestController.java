@@ -1,17 +1,17 @@
 package com.ista.springboot.web.app.controllers;
 
-import java.io.IOException;
+
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
+
 
 import com.ista.springboot.web.app.models.entity.Rol;
 import com.ista.springboot.web.app.models.entity.Usuario;
@@ -33,11 +33,7 @@ public class UsuarioRestController {
     @Autowired
     private RolServiceImpl rolService;
     
-    private final RestTemplate driveRest;
     
-    public UsuarioRestController(RestTemplateBuilder builder) {
-        this.driveRest = builder.build();
-    }
 
     // --- CRUD de Usuarios ---
     @PostMapping("/usuarios")
@@ -197,39 +193,41 @@ public class UsuarioRestController {
 
     
     
-    /**
-     * Ahora ya NO comprobamos token. Solo necesitamos 
-     * que exista u.getFoto() para extraer el fileId y llamar a Drive vía un enlace público.
-     */
     @GetMapping("/usuarios/{id}/foto")
-    public ResponseEntity<byte[]> descargarFotoDrive(@PathVariable Long id) throws IOException {
+    public ResponseEntity<Void> redirectFotoDrive(@PathVariable Long id) {
         Usuario u = usuarioService.findById(id);
         if (u == null || u.getFoto() == null) {
+            System.out.println("[drive] Usuario o foto nulos para id=" + id);
             return ResponseEntity.notFound().build();
         }
 
-        // 1) Extraer fileId de la URL de Drive:
-        Pattern p = Pattern.compile("/d/([a-zA-Z0-9_-]+)");
-        Matcher m = p.matcher(u.getFoto());
+        String url = u.getFoto();
+        System.out.println("[drive] URL almacenada en DB: " + url);
+
+        // Regex que cubre:
+        // - https://drive.google.com/file/d/FILEID/view?...  
+        // - https://drive.google.com/d/FILEID  
+        // - https://drive.google.com/open?id=FILEID  
+        // - enlaces con ?id=FILEID
+        Pattern p = Pattern.compile("(?:/file/d/|/d/|[?&]id=)([A-Za-z0-9_-]+)");
+        Matcher m = p.matcher(url);
         if (!m.find()) {
+            System.out.println("[drive] NO pude extraer fileId de URL");
             return ResponseEntity.badRequest().build();
         }
         String fileId = m.group(1);
+        System.out.println("[drive] fileId extraído: " + fileId);
 
-        // 2) Llamar al enlace público de descarga:
-        //    https://drive.google.com/uc?export=download&id={fileId}
-        String publicUrl = "https://drive.google.com/uc?export=download&id=" + fileId;
-        ResponseEntity<byte[]> resp = driveRest.exchange(
-            publicUrl,
-            HttpMethod.GET,
-            HttpEntity.EMPTY,
-            byte[].class
-        );
+        // Construcción del enlace público
+        String publicUrl = "https://drive.google.com/uc?export=view&id=" + fileId;
+        System.out.println("[drive] Redirigiendo a: " + publicUrl);
 
-        // 3) Devolver los bytes con el Content-Type que venga
-        HttpHeaders out = new HttpHeaders();
-        MediaType ct = resp.getHeaders().getContentType();
-        out.setContentType(ct != null ? ct : MediaType.APPLICATION_OCTET_STREAM);
-        return new ResponseEntity<>(resp.getBody(), out, HttpStatus.OK);
+        // Redirigir 302
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .header(HttpHeaders.LOCATION, publicUrl)
+                .build();
     }
+
+
 }
