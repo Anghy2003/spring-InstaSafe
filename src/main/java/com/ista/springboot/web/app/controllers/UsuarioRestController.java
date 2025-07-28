@@ -195,12 +195,17 @@ public class UsuarioRestController {
         return usuarioService.save(u);
     }
 
-    // --- NUEVO ENDPOINT PARA DESCARGAR FOTO DE DRIVE ---
+    
+    
+    /**
+     * Ahora ya NO comprobamos token. Solo necesitamos 
+     * que exista u.getFoto() para extraer el fileId y llamar a Drive vía un enlace público.
+     */
     @GetMapping("/usuarios/{id}/foto")
     public ResponseEntity<byte[]> descargarFotoDrive(@PathVariable Long id) throws IOException {
         Usuario u = usuarioService.findById(id);
-        if (u == null || u.getToken() == null || u.getFoto() == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        if (u == null || u.getFoto() == null) {
+            return ResponseEntity.notFound().build();
         }
 
         // 1) Extraer fileId de la URL de Drive:
@@ -211,29 +216,20 @@ public class UsuarioRestController {
         }
         String fileId = m.group(1);
 
-        // 2) Preparar llamada a Drive REST
-        String driveUrl = "https://www.googleapis.com/drive/v3/files/"
-                        + fileId
-                        + "?alt=media";
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(u.getToken());
-        HttpEntity<Void> req = new HttpEntity<>(headers);
-
-        // 3) Ejecutar y devolver bytes
+        // 2) Llamar al enlace público de descarga:
+        //    https://drive.google.com/uc?export=download&id={fileId}
+        String publicUrl = "https://drive.google.com/uc?export=download&id=" + fileId;
         ResponseEntity<byte[]> resp = driveRest.exchange(
-            driveUrl,
+            publicUrl,
             HttpMethod.GET,
-            req,
+            HttpEntity.EMPTY,
             byte[].class
         );
 
-        // 4) Construir respuesta con tipo de contenido
-        MediaType contentType = resp.getHeaders()
-                                    .getContentType() != null
-                                  ? resp.getHeaders().getContentType()
-                                  : MediaType.APPLICATION_OCTET_STREAM;
+        // 3) Devolver los bytes con el Content-Type que venga
         HttpHeaders out = new HttpHeaders();
-        out.setContentType(contentType);
+        MediaType ct = resp.getHeaders().getContentType();
+        out.setContentType(ct != null ? ct : MediaType.APPLICATION_OCTET_STREAM);
         return new ResponseEntity<>(resp.getBody(), out, HttpStatus.OK);
     }
 }
