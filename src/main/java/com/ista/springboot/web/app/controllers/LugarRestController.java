@@ -37,29 +37,29 @@ public class LugarRestController {
 		return LugarService.findAll();
 	}
 	
-	//buscar un Rol por id
+	//buscar un lugar por id
 	@GetMapping("/lugares/{id}")
 	public Lugar show(@PathVariable Long id) {
 		return LugarService.findById(id);	
 	}
 	
-	//guardar  un Rol
+	//guardar  un lugar
 	@PostMapping("/lugares")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Lugar create(@RequestBody Lugar lugares) {
 		return LugarService.save(lugares);		
 	}
 	
-	//editar un Rol
+	//editar un lugar
 	@PutMapping("/lugares/{id}")
 	public Lugar update(@RequestBody Lugar lugar, @PathVariable Long id) {
-		Lugar rolActual = LugarService.findById(id);		
-		rolActual.setNombre(lugar.getNombre());
-	
-		return LugarService.save(rolActual);
+		Lugar lugarActual = LugarService.findById(id);		
+		lugarActual.setNombre(lugar.getNombre());
+		lugarActual.setFoto(lugar.getFoto());
+		return LugarService.save(lugarActual);
 	}
 	
-	//eliminar un Rol
+	//eliminar un lugar
 	@DeleteMapping("/lugares/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id) {
