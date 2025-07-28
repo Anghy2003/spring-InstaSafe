@@ -219,7 +219,7 @@ public class UsuarioRestController {
         System.out.println("[drive] fileId extraído: " + fileId);
 
         // Construcción del enlace público
-        String publicUrl = "https://drive.google.com/uc?export=view&id=" + fileId;
+        String publicUrl = "https://drive.google.com/uc?export=download&id=" + fileId;
         System.out.println("[drive] Redirigiendo a: " + publicUrl);
 
         // Redirigir 302
