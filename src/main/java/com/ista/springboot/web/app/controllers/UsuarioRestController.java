@@ -43,7 +43,9 @@ public class UsuarioRestController {
         @RequestParam("contrasena") String contrasena,
         @RequestParam("id_rol") Long idRol,
         @RequestParam(value = "foto", required = false) String foto,
-        @RequestParam(value = "plantillaFacial", required = false) String plantillaFacial
+        @RequestParam(value = "plantillaFacial", required = false) String plantillaFacial,
+        @RequestParam(value = "token", required = false) String token,
+        @RequestParam(value = "estado", defaultValue = "true") boolean estado
     ) {
         Usuario usuario = new Usuario();
         usuario.setCedula(cedula);
@@ -106,6 +108,7 @@ public class UsuarioRestController {
         if (usuario.getGenero() != null) usuarioActual.setGenero(usuario.getGenero());
         if (usuario.getIdresponsable() != null) usuarioActual.setIdresponsable(usuario.getIdresponsable());
         if (usuario.getContrasena() != null) usuarioActual.setContrasena(usuario.getContrasena());
+       
 
         // Actualizar rol si se proporciona
         if (usuario.getId_rol() != null && usuario.getId_rol().getId() != null) {

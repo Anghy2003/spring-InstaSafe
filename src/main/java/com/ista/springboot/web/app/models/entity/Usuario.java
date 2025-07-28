@@ -7,99 +7,185 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Entity
 @Table(name = "usuarios")
 public class Usuario implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
-    @Column(unique = true)
-    private String cedula;
-    private String nombre;
-    private String apellido;
-    @Column(unique = true)
-    private String correo;
-    private String foto;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @Column(name = "plantilla_facial", columnDefinition = "TEXT")
-    private String plantillaFacial;
+	@Column(unique = true)
+	private String cedula;
+	private String nombre;
+	private String apellido;
+	@Column(unique = true)
+	private String correo;
+	private String foto;
 
-    private String genero;
-    private Long idresponsable;
+	@Column(name = "plantilla_facial", columnDefinition = "TEXT")
+	private String plantillaFacial;
 
-    @Temporal(TemporalType.DATE)
-    private Date fechanacimiento;
+	private String genero;
+	private Long idresponsable;
 
-    private String contrasena;
+	@Temporal(TemporalType.DATE)
+	private Date fechanacimiento;
 
-    @Column(name = "fecharegistro")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fecharegistro;
+	private String contrasena;
 
-    @PrePersist
-    public void prePersist() {
-        fecharegistro = new Date();
-    }
+	@Column(name = "fecharegistro")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fecharegistro;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_rol")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) // también para Rol
-    private Rol id_rol;
-    
-    @Column(name="fotogoogle") 
-    private String fotoGoogle;
-    
-    private String token;
+	@PrePersist
+	public void prePersist() {
+		fecharegistro = new Date();
+	}
 
-    // Getters y Setters
-    
-    public String getToken() { return token; }
-    public void setToken(String token) {this.token = token;	}
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_rol")
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" }) // también para Rol
+	private Rol id_rol;
 
-	public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+	@Column(name = "fotogoogle")
+	private String fotoGoogle;
 
-    public String getCedula() { return cedula; }
-    public void setCedula(String cedula) { this.cedula = cedula; }
+	private String token;
 
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
+	private boolean estado = true;
 
-    public String getApellido() { return apellido; }
-    public void setApellido(String apellido) { this.apellido = apellido; }
+	// Getters y Setters
 
-    public String getCorreo() { return correo; }
-    public void setCorreo(String correo) { this.correo = correo; }
+	public String getToken() {
+		return token;
+	}
 
-    public String getFoto() { return foto; }
-    public void setFoto(String foto) { this.foto = foto; }
+	public void setToken(String token) {
+		this.token = token;
+	}
 
-    public String getPlantillaFacial() { return plantillaFacial; }
-    public void setPlantillaFacial(String plantillaFacial) { this.plantillaFacial = plantillaFacial; }
+	public Long getId() {
+		return id;
+	}
 
-    public String getGenero() { return genero; }
-    public void setGenero(String genero) { this.genero = genero; }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public Long getIdresponsable() { return idresponsable; }
-    public void setIdresponsable(Long idresponsable) { this.idresponsable = idresponsable; }
+	public String getCedula() {
+		return cedula;
+	}
 
-    public Date getFechanacimiento() { return fechanacimiento; }
-    public void setFechanacimiento(Date fechanacimiento) { this.fechanacimiento = fechanacimiento; }
+	public void setCedula(String cedula) {
+		this.cedula = cedula;
+	}
 
-    public String getContrasena() { return contrasena; }
-    public void setContrasena(String contrasena) { this.contrasena = contrasena; }
+	public String getNombre() {
+		return nombre;
+	}
 
-    public Date getFecharegistro() { return fecharegistro; }
-    public void setFecharegistro(Date fecharegistro) { this.fecharegistro = fecharegistro; }
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 
-    public Rol getId_rol() { return id_rol; }
-    public void setId_rol(Rol id_rol) { this.id_rol = id_rol; }
-    
-    public String getFotoGoogle() { return fotoGoogle;   }
-      public void setFotoGoogle(String fotoGoogle) { this.fotoGoogle = fotoGoogle;   }
+	public String getApellido() {
+		return apellido;
+	}
+
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
+	}
+
+	public String getCorreo() {
+		return correo;
+	}
+
+	public void setCorreo(String correo) {
+		this.correo = correo;
+	}
+
+	public String getFoto() {
+		return foto;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
+	}
+
+	public String getPlantillaFacial() {
+		return plantillaFacial;
+	}
+
+	public void setPlantillaFacial(String plantillaFacial) {
+		this.plantillaFacial = plantillaFacial;
+	}
+
+	public String getGenero() {
+		return genero;
+	}
+
+	public void setGenero(String genero) {
+		this.genero = genero;
+	}
+
+	public Long getIdresponsable() {
+		return idresponsable;
+	}
+
+	public void setIdresponsable(Long idresponsable) {
+		this.idresponsable = idresponsable;
+	}
+
+	public Date getFechanacimiento() {
+		return fechanacimiento;
+	}
+
+	public void setFechanacimiento(Date fechanacimiento) {
+		this.fechanacimiento = fechanacimiento;
+	}
+
+	public String getContrasena() {
+		return contrasena;
+	}
+
+	public void setContrasena(String contrasena) {
+		this.contrasena = contrasena;
+	}
+
+	public Date getFecharegistro() {
+		return fecharegistro;
+	}
+
+	public void setFecharegistro(Date fecharegistro) {
+		this.fecharegistro = fecharegistro;
+	}
+
+	public Rol getId_rol() {
+		return id_rol;
+	}
+
+	public void setId_rol(Rol id_rol) {
+		this.id_rol = id_rol;
+	}
+
+	public String getFotoGoogle() {
+		return fotoGoogle;
+	}
+
+	public void setFotoGoogle(String fotoGoogle) {
+		this.fotoGoogle = fotoGoogle;
+	}
+
+	public boolean isEstado() {
+		return estado;
+	}
+
+	public void setEstado(boolean estado) {
+		this.estado = estado;
+	}
+
 }
