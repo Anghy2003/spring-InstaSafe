@@ -1,8 +1,10 @@
 package com.ista.springboot.web.app.controllers;
 
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,7 +33,8 @@ public class UsuarioRestController {
     private IUsuarioService usuarioService;
     
     @Autowired
-    private RolServiceImpl rolService;
+    private RolServiceImpl rolService;   
+    
     
     
 
@@ -193,41 +196,27 @@ public class UsuarioRestController {
 
     
     
-    @GetMapping("/usuarios/{id}/foto")
-    public ResponseEntity<Void> redirectFotoDrive(@PathVariable Long id) {
+    @GetMapping("/usuarios/{id}/foto-url")
+    public ResponseEntity<Map<String, String>> getFotoUrlDrive(@PathVariable Long id) {
         Usuario u = usuarioService.findById(id);
         if (u == null || u.getFoto() == null) {
-            System.out.println("[drive] Usuario o foto nulos para id=" + id);
             return ResponseEntity.notFound().build();
         }
 
-        String url = u.getFoto();
-        System.out.println("[drive] URL almacenada en DB: " + url);
-
-        // Regex que cubre:
-        // - https://drive.google.com/file/d/FILEID/view?...  
-        // - https://drive.google.com/d/FILEID  
-        // - https://drive.google.com/open?id=FILEID  
-        // - enlaces con ?id=FILEID
+        // Extraer el fileId de la URL almacenada
         Pattern p = Pattern.compile("(?:/file/d/|/d/|[?&]id=)([A-Za-z0-9_-]+)");
-        Matcher m = p.matcher(url);
+        Matcher m = p.matcher(u.getFoto());
         if (!m.find()) {
-            System.out.println("[drive] NO pude extraer fileId de URL");
             return ResponseEntity.badRequest().build();
         }
         String fileId = m.group(1);
-        System.out.println("[drive] fileId extraído: " + fileId);
 
-        // Construcción del enlace público
-        String publicUrl = "https://drive.google.com/uc?export=download&id=" + fileId;
-        System.out.println("[drive] Redirigiendo a: " + publicUrl);
+        // Construir la URL pública (export=view para inline)
+        String publicUrl = "https://drive.google.com/uc?export=view&id=" + fileId;
 
-        // Redirigir 302
-        return ResponseEntity
-                .status(HttpStatus.FOUND)
-                .header(HttpHeaders.LOCATION, publicUrl)
-                .build();
+        return ResponseEntity.ok(Collections.singletonMap("url", publicUrl));
     }
+
 
 
 }
