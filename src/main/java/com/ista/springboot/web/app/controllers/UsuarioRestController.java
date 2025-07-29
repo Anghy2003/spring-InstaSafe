@@ -196,7 +196,7 @@ public class UsuarioRestController {
 
     
     
-    @GetMapping("/usuarios/{id}/foto-url")
+    @GetMapping("/usuarios/{id}/foto")
     public ResponseEntity<Map<String, String>> getFotoUrlDrive(@PathVariable Long id) {
         Usuario u = usuarioService.findById(id);
         if (u == null || u.getFoto() == null) {
